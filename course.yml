@@ -1,4 +1,4 @@
-title: Course Title Here
-description: A description of the course.
+title: Reproducible Research with R Homework
+description: .
 programming_language: r
 from: 'r-base-prod:30'
