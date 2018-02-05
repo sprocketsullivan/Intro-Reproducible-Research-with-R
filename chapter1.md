@@ -98,20 +98,57 @@ You may want to use [`str()`](https://www.rdocumentation.org/packages/utils/vers
 Have a look at the plot. Which color does the point with the lowest rating have?
 `@pre_exercise_code`
 ```{r}
-
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+n<-100
+set.seed(123)
+my.data<-data.frame(gender=c(rep("male",n),rep("female",n)), brain=c(rnorm(n,1273,100),rnorm(n,1131,100)))
+my.data <-
+  my.data %>% 
+  mutate(body=brain/17+rnorm(n*2,0,5))
+p.bar.data<-
+  my.data %>% 
+  group_by(gender) %>% 
+  summarise(N=n(),
+  		 mean_brain=mean(brain),         
+         sem_brain=sd(brain)/sqrt(N)) %>% 
+  mutate(ymin=mean_brain-sem_brain,ymax=mean_brain+sem_brain)
 ```
-
 `@sample_code`
 ```{r}
+# simple barplot assign this to variable p.bar
+p.bar <- ggplot(aes(y=______,x=_____),data=p.bar.data)+
+  geom_bar(stat="______")
 
+# add error bars to p.bar
+p.bar <- ggplot(aes(y=_____,x=_____),data=p.bar.data)+
+  geom_bar(stat="_____")+
+  geom_errorbar(aes(ymin=______,ymax=_____),width=0.3)
+
+# plot p.bar
+plot(p.bar)
 ```
 
 `@solution`
 ```{r}
+# simple barplot assign this to variable p.bar
+p.bar <- ggplot(aes(y=mean_brain,x=gender),data=p.bar.data)+
+  geom_bar(stat="identity")
+
+#add error bars to p.bar
+p.bar <- ggplot(aes(y=mean_brain,x=gender),data=p.bar.data)+
+  geom_bar(stat="identity")+
+  geom_errorbar(aes(ymin=ymin,ymax=ymax),width=0.3)
+
+# plot p.bar
+plot(p.bar)
 
 ```
 
 `@sct`
 ```{r}
+# SCT written with testwhat: https://github.com/datacamp/testwhat/wiki
 
+success_msg("Good work!")
 ```
