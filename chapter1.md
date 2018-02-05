@@ -28,16 +28,9 @@ key: 81c685b3b3
 `@pre_exercise_code`
 
 ```{r}
-# The pre exercise code runs code to initialize the user's workspace.
-# You can use it to load packages, initialize datasets and draw a plot in the viewer
-#library(tidyr)
-#library(dplyr)
 n<-100
 set.seed(123)
 my.data<-data.frame(gender=c(rep("male",n),rep("female",n)), brain=c(rnorm(n,1273,100),rnorm(n,1131,100)))
-#my.data <-
- # my.data %>% 
-#  mutate(body=brain/17+rnorm(n*2,0,5))
 ```
 
 `@sample_code`
