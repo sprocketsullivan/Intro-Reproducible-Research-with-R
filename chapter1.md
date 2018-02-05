@@ -1,6 +1,6 @@
 ---
 title: Homework Session 2
-description: .
+description: no description.
 ---
 
 ## Recap of last Session
@@ -28,9 +28,8 @@ Have a look at the plot. Which color does the point with the lowest rating have?
 `@pre_exercise_code`
 
 ```{r}
-n<-100
-set.seed(123)
-my.data<-data.frame(gender=c(rep("male",n),rep("female",n)), brain=c(rnorm(n,1273,100),rnorm(n,1131,100)))
+
+my.data<-data.frame(brain=rnorm(100),gender=c("male","female"))
 ```
 
 `@sample_code`
@@ -72,83 +71,3 @@ aggregate(my.data$brain,list(my.data$gender),sd)
 success_msg("Good work!")
 ```
 
----
-## Barplot
-
-```yaml
-type: NormalExercise
-key: a9ff08577c
-lang: r
-xp: 100
-skills: 1
-```
-We provide dataframe `p.bar.data` that contains the mean and its standard error ($\frac{\sigma}{\sqrt{N}}$) for the brain volume of each gender.
-
-You may want to use [`str()`](https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/str) or [`summary()`](https://www.rdocumentation.org/packages/base/versions/3.4.3/topics/summary) on `p.bar.data` to have a look at its structure.
-
-`@instructions`
-- Use function [`ggplot()`](https://www.rdocumentation.org/packages/ggplot2/versions/2.2.1/topics/ggplot) for data mapping
-    - parameter `data` tells `ggplot` where your data is stored.
-    - parameter `aes` tells `ggplot` which parts of your data to map to the x-axis and the y-axis, respectively. You plan to plot gender against the respective average brain volume.
-- Use [`geom_bar()`](https://www.rdocumentation.org/packages/ggplot2/versions/2.2.1/topics/geom_bar) to do a simple bar blot. Use `stat="identity"` to make the heights of the bars represent values in the data mapped to the y-axis.
-- Use [`geom_errorbar()`](https://www.rdocumentation.org/packages/ggplot2/versions/2.2.1/topics/geom_crossbar) to add error bars to the bar plot.
-
-
-`@hint`
-Have a look at the plot. Which color does the point with the lowest rating have?
-`@pre_exercise_code`
-```{r}
-library(tidyr)
-library(dplyr)
-library(ggplot2)
-n<-100
-set.seed(123)
-my.data<-data.frame(gender=c(rep("male",n),rep("female",n)), brain=c(rnorm(n,1273,100),rnorm(n,1131,100)))
-my.data <-
-  my.data %>% 
-  mutate(body=brain/17+rnorm(n*2,0,5))
-p.bar.data<-
-  my.data %>% 
-  group_by(gender) %>% 
-  summarise(N=n(),
-  		 mean_brain=mean(brain),         
-         sem_brain=sd(brain)/sqrt(N)) %>% 
-  mutate(ymin=mean_brain-sem_brain,ymax=mean_brain+sem_brain)
-```
-`@sample_code`
-```{r}
-# simple barplot assign this to variable p.bar
-p.bar <- ggplot(aes(y=______,x=_____),data=p.bar.data)+
-  geom_bar(stat="______")
-
-# add error bars to p.bar
-p.bar <- ggplot(aes(y=_____,x=_____),data=p.bar.data)+
-  geom_bar(stat="_____")+
-  geom_errorbar(aes(ymin=______,ymax=_____),width=0.3)
-
-# plot p.bar
-plot(p.bar)
-```
-
-`@solution`
-```{r}
-# simple barplot assign this to variable p.bar
-p.bar <- ggplot(aes(y=mean_brain,x=gender),data=p.bar.data)+
-  geom_bar(stat="identity")
-
-#add error bars to p.bar
-p.bar <- ggplot(aes(y=mean_brain,x=gender),data=p.bar.data)+
-  geom_bar(stat="identity")+
-  geom_errorbar(aes(ymin=ymin,ymax=ymax),width=0.3)
-
-# plot p.bar
-plot(p.bar)
-
-```
-
-`@sct`
-```{r}
-# SCT written with testwhat: https://github.com/datacamp/testwhat/wiki
-
-success_msg("Good work!")
-```
