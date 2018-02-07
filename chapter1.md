@@ -28,7 +28,7 @@ Have a look at the plot. Which color does the point with the lowest rating have?
 `@pre_exercise_code`
 
 ```{r}
-
+library(dplyr)
 my.data<-data.frame(brain=rnorm(100),gender=c("male","female"))
 ```
 
